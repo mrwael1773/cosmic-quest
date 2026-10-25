@@ -17,11 +17,11 @@ button{font:inherit;touch-action:none;user-select:none;-webkit-user-select:none;
 .brand{font-weight:1000;letter-spacing:1px;font-size:13px}.brand small{display:block;color:var(--cyan);font-size:9px;letter-spacing:2px;margin-top:3px}
 .stats{display:flex;gap:6px}.stat{font-size:10px;color:#b8c8e8}.stat b{display:block;color:var(--cyan);font-size:16px;margin-top:2px}
 .health{position:fixed;z-index:10;top:calc(env(safe-area-inset-top) + 58px);left:12px;width:auto;height:auto;background:transparent;border-radius:0;overflow:visible;pointer-events:none;font-size:22px;letter-spacing:2px;text-shadow:0 2px 8px #0008}.health i{display:none}
-.controls{position:fixed;z-index:30;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 58px);display:flex;flex-direction:row;direction:ltr;justify-content:space-between;align-items:flex-end;padding:0 16px;pointer-events:none}
-.pad{--bw:62px;--bh:62px;--gap:24px;direction:ltr;display:flex;align-items:center;justify-content:flex-start;gap:var(--gap);width:calc(var(--bw)*2 + var(--gap));height:var(--bh);pointer-events:auto;flex:0 0 auto;position:relative;isolation:isolate;flex-shrink:0}
+.controls{position:fixed;z-index:30;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 24px);display:flex;flex-direction:row;direction:ltr;justify-content:space-between;align-items:flex-end;padding:0 12px;pointer-events:none}
+.pad{--bw:76px;--bh:76px;--gap:12px;direction:ltr;display:flex;align-items:center;justify-content:flex-start;gap:var(--gap);width:calc(var(--bw)*2 + var(--gap));height:var(--bh);pointer-events:auto;flex:0 0 auto;position:relative;isolation:isolate;flex-shrink:0}
 .ctrl{border:1px solid #a9dfff70;background:#0b1740df;color:#f5fbff;border-radius:16px;font-size:20px;font-weight:900;box-shadow:0 8px 25px #0003;outline:none}
 .ctrl:active,.ctrl.is-pressed{background:#275c92;transform:none}.pad .ctrl{position:relative;display:block;box-sizing:border-box;min-width:0;min-height:0;width:var(--bw);height:var(--bh);margin:0;padding:0;inset:auto;appearance:none;-webkit-appearance:none;touch-action:none;flex:0 0 var(--bw);transform:none;transition:background-color .12s ease}.controls{direction:ltr}
-.fire{pointer-events:auto;width:90px;height:90px;border-radius:50%;border:1px solid #d7ffff;background:linear-gradient(145deg,#8efff0,#7a8cff);color:#09132c;font-weight:1000;font-size:12px;box-shadow:0 0 28px #65faff35}
+.fire{pointer-events:auto;width:100px;height:100px;border-radius:50%;border:1px solid #d7ffff;background:linear-gradient(145deg,#8efff0,#7a8cff);color:#09132c;font-weight:1000;font-size:12px;box-shadow:0 0 28px #65faff35}
 .hint{position:fixed;z-index:10;bottom:calc(env(safe-area-inset-bottom) + 10px);left:50%;transform:translateX(-50%);font-size:10px;color:#aebfe0b0;white-space:nowrap;pointer-events:none}
 .overlay{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:20px;background:linear-gradient(180deg,#0508177a,#050817ef);backdrop-filter:blur(8px)}
 .panel{width:min(100%,440px);padding:25px;border:1px solid #85eaff55;border-radius:26px;background:linear-gradient(145deg,#151e43f5,#080d20f7);box-shadow:0 30px 100px #0009;text-align:right}
@@ -46,8 +46,8 @@ h1{font-size:clamp(37px,10vw,58px);line-height:.98;letter-spacing:-1.8px;margin:
 .shop-note{font-size:11px;color:#9eb2d5;line-height:1.7;margin:12px 0 0}.diamond-pop{position:fixed;z-index:15;top:calc(env(safe-area-inset-top) + 125px);right:12px;color:#7affdc;font-weight:1000;font-size:12px;pointer-events:none}
 @media(max-height:450px){.shop-trigger{top:58px}.shop-panel{max-height:90dvh;padding:12px}.shop-preview{height:35px}}
 
-@media(max-width:430px){.pad{--bw:55px;--bh:55px;--gap:20px}.fire{width:80px;height:80px}.glass{padding:8px 9px}.brand{font-size:11px}.stat b{font-size:14px}.panel{padding:21px}}
-@media(max-height:450px){.controls{bottom:24px}.pad{--bw:48px;--bh:44px;--gap:14px}.fire{width:66px;height:66px}.hint{display:none}.health{top:55px}}
+@media(max-width:430px){.pad{--bw:70px;--bh:70px;--gap:10px}.fire{width:90px;height:90px}.glass{padding:8px 9px}.brand{font-size:11px}.stat b{font-size:14px}.panel{padding:21px}}
+@media(max-height:450px){.controls{bottom:calc(env(safe-area-inset-bottom) + 12px)}.pad{--bw:56px;--bh:54px;--gap:8px}.fire{width:72px;height:72px}.hint{display:none}.health{top:55px}}
 </style>
 </head>
 <body>
