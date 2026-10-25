@@ -1,87 +1,86 @@
 <!doctype html>
-<html lang="ar">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#070b22">
-<title>Cosmic Quest</title>
+<meta name="theme-color" content="#070a18">
+<title>Cosmic Quest — The Shattered Moon</title>
 <style>
-:root{color-scheme:dark;--cyan:#66f5ff;--violet:#a78bfa}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050716;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#fff}
-#game{position:fixed;inset:0}
-canvas{display:block;width:100%;height:100%;touch-action:none}
-.hud{position:fixed;top:env(safe-area-inset-top,12px);left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:14px 16px;pointer-events:none;gap:10px}
-.brand,.stat{background:#111633c9;border:1px solid #9aeaff38;backdrop-filter:blur(12px);border-radius:16px;padding:10px 13px;box-shadow:0 0 24px #3b82f61c}
-.brand{font-weight:900;letter-spacing:1px;color:#dffcff}.brand small{display:block;font-size:10px;letter-spacing:3px;color:#8c9acb;font-weight:600}
-.stats{display:flex;gap:8px}.stat{font-size:12px;color:#c4d1ff;text-align:center;min-width:74px}.stat strong{display:block;color:var(--cyan);font-size:19px}
-#message{position:fixed;left:50%;top:23%;transform:translateX(-50%);width:min(88vw,440px);text-align:center;pointer-events:none;text-shadow:0 3px 20px #000}
-#message h1{font-size:clamp(27px,7vw,48px);margin:0 0 8px;letter-spacing:1px;background:linear-gradient(90deg,#fff,#8beaff,#c4a5ff);color:transparent;background-clip:text}
-#message p{margin:0;color:#d4dcff;line-height:1.55;font-size:14px}
-.controls{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);display:flex;justify-content:space-between;align-items:end;padding:0 20px;pointer-events:none}
-.cluster{display:flex;gap:12px;pointer-events:auto}
-.control{width:62px;height:62px;border-radius:21px;border:1px solid #9cecff75;background:#111a3dcc;color:#e8fdff;font-size:25px;box-shadow:0 0 25px #2dd4bf20,inset 0 0 20px #8b5cf622;touch-action:none;user-select:none}
-.control:active,.control.pressed{background:#287b9ac9;transform:scale(.96)}
-#boost{width:74px;height:74px;border-radius:50%;font-size:12px;font-weight:900;letter-spacing:1px;color:#fff;background:radial-gradient(circle at 35% 25%,#e879f9,#6d28d9 65%,#24105a);border:2px solid #e9b8ff;box-shadow:0 0 28px #a855f788}
-#overlay{position:fixed;inset:0;display:grid;place-items:center;background:#0407179c;backdrop-filter:blur(7px);padding:24px}
-.panel{width:min(100%,390px);padding:27px 23px;border-radius:27px;border:1px solid #91dfff55;background:linear-gradient(145deg,#17234beF,#0a0e27f5);text-align:center;box-shadow:0 20px 80px #0008}
-.panel .orb{font-size:42px;margin-bottom:4px}.panel h2{font-size:28px;margin:4px 0 8px}.panel p{font-size:14px;line-height:1.7;color:#c4d1f8;margin:0 0 20px}
-#start{border:0;border-radius:15px;padding:14px 23px;width:100%;font-size:16px;font-weight:900;color:#071024;background:linear-gradient(90deg,#67f5ff,#b9a0ff);box-shadow:0 0 25px #67f5ff35}
-.hint{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 104px);left:0;right:0;text-align:center;font-size:11px;color:#c8d5ff9c;pointer-events:none}
-@media(min-width:700px){.controls{padding:0 8vw}.control{width:70px;height:70px}}
+:root{--cyan:#8af5ff;--glass:rgba(9,17,37,.72)}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#070a18;color:#f4f8ff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif}canvas{display:block;width:100%;height:100%;touch-action:none}#scene{position:fixed;inset:0}.hud{position:fixed;inset:0 0 auto;display:flex;justify-content:space-between;align-items:flex-start;padding:calc(env(safe-area-inset-top) + 13px) 16px 0;pointer-events:none;gap:12px}.logo,.mission,.meter{background:var(--glass);border:1px solid #b3dfff30;backdrop-filter:blur(14px);box-shadow:0 8px 30px #0003}.logo{border-radius:15px;padding:10px 13px;font-size:12px;letter-spacing:2px;font-weight:900}.logo span{display:block;color:#8ca7d7;font-size:9px;letter-spacing:3px;margin-top:3px}.mission{padding:10px 13px;border-radius:15px;max-width:56%;font-size:11px;color:#c3d4f7;line-height:1.5}.mission b{display:block;color:#fff;font-size:12px;margin-bottom:2px}.right{display:flex;flex-direction:column;gap:8px;align-items:flex-end}.meter{border-radius:12px;padding:8px 12px;text-align:right;font-size:9px;color:#9bb0d9;letter-spacing:1.4px;min-width:96px}.meter strong{display:block;font-size:19px;color:var(--cyan);letter-spacing:0;margin-top:2px}#toast{position:fixed;top:26%;left:50%;transform:translate(-50%,-8px);opacity:0;transition:.25s;padding:10px 16px;border:1px solid #91f8ff65;background:#081a2bd9;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.8px;pointer-events:none;white-space:nowrap}#toast.show{opacity:1;transform:translate(-50%,0)}.bottom{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 15px);display:flex;align-items:flex-end;justify-content:space-between;padding:0 20px;pointer-events:none}.pad{display:grid;grid-template-columns:54px 54px 54px;grid-template-rows:54px 54px;gap:5px;pointer-events:auto}.touch{border:1px solid #a9dfff55;border-radius:17px;color:#f3fcff;background:#0c183bcc;backdrop-filter:blur(10px);font-size:20px;box-shadow:inset 0 0 18px #72dfff0b;touch-action:none;user-select:none}.touch:active,.touch.down{background:#26657acc}.up{grid-column:2;grid-row:1}.left{grid-column:1;grid-row:2}.down{grid-column:2;grid-row:2}.rightbtn{grid-column:3;grid-row:2}.actions{display:flex;flex-direction:column;gap:10px;align-items:center;pointer-events:auto}.action{width:65px;height:65px;border-radius:50%;font-size:11px;font-weight:900;letter-spacing:1px;border:1px solid #c7a8ff99;background:radial-gradient(circle at 35% 25%,#9a8aff,#4430a4 72%);box-shadow:0 0 24px #815dff44;color:white}.action.jump{width:53px;height:53px;background:radial-gradient(circle at 35% 25%,#9bfaff,#137da1 72%);border-color:#9df8ff99}.hint{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 10px);transform:translateX(-50%);font-size:10px;color:#a7bad5a8;white-space:nowrap;pointer-events:none}#screen{position:fixed;inset:0;display:grid;place-items:center;padding:24px;background:linear-gradient(180deg,#05091933,#050919a8);backdrop-filter:blur(5px)}.panel{width:min(100%,430px);border:1px solid #9ce8ff45;border-radius:26px;padding:28px 25px;background:linear-gradient(150deg,#111f3aef,#080d20f5);box-shadow:0 30px 100px #0008;text-align:left}.eyebrow{font-size:10px;letter-spacing:3px;color:#8ef4ff;font-weight:900}.panel h1{font-size:clamp(31px,8vw,48px);line-height:1.02;letter-spacing:-1.8px;margin:13px 0 12px}.panel h1 span{color:#8ef4ff}.panel p{color:#b6c6e2;line-height:1.7;font-size:13px}.facts{display:flex;gap:8px;margin:20px 0}.fact{flex:1;border:1px solid #a8cfff20;background:#ffffff05;border-radius:12px;padding:10px}.fact b{display:block;font-size:12px}.fact small{color:#90a5c9;font-size:10px}.start{width:100%;padding:15px;border:0;border-radius:14px;background:linear-gradient(90deg,#80f4ff,#b5a0ff);color:#061022;font-size:14px;font-weight:950;letter-spacing:1px}.sub{font-size:10px!important;text-align:center;color:#8499bc!important;margin:12px 0 0!important}@media(min-width:850px){.bottom{padding:0 7vw}.pad{grid-template-columns:62px 62px 62px;grid-template-rows:62px 62px}.touch{font-size:22px}.mission{max-width:340px}}
 </style>
 </head>
 <body>
-<div id="game"></div>
-<div class="hud"><div class="brand">COSMIC QUEST<small>SPACE EXPLORER</small></div><div class="stats"><div class="stat">CRYSTALS<strong id="score">0</strong></div><div class="stat">DISTANCE<strong id="distance">0</strong></div></div></div>
-<div id="message"><h1>Explore the Unknown</h1><p>Collect glowing crystals. Dodge the asteroids.</p></div>
-<div class="hint">Move ◀ ▶ · Hold BOOST to speed up</div>
-<div class="controls"><div class="cluster"><button class="control" id="left" aria-label="Move left">◀</button><button class="control" id="right" aria-label="Move right">▶</button></div><button class="control" id="boost">BOOST</button></div>
-<div id="overlay"><div class="panel"><div class="orb">🪐</div><h2>Cosmic Quest</h2><p>Your space adventure begins now.<br>Steer your ship, collect energy crystals, and avoid asteroids for as long as you can.</p><button id="start">START EXPLORING</button></div></div>
+<div id="scene"></div>
+<div class="hud"><div class="logo">COSMIC QUEST<span>THE SHATTERED MOON</span></div><div class="mission"><b id="missionTitle">MISSION 01 / SIGNAL LOST</b><span id="missionText">Recover 5 energy shards to reactivate the beacon.</span></div><div class="right"><div class="meter">ENERGY SHARDS<strong id="score">0 / 5</strong></div><div class="meter">SUIT INTEGRITY<strong id="health">100%</strong></div></div></div>
+<div id="toast">SHARD RECOVERED</div>
+<div class="bottom"><div class="pad"><button class="touch up" data-key="up" aria-label="Move forward">▲</button><button class="touch left" data-key="left" aria-label="Move left">◀</button><button class="touch down" data-key="down" aria-label="Move backward">▼</button><button class="touch rightbtn" data-key="right" aria-label="Move right">▶</button></div><div class="actions"><button class="touch action" id="dash">BOOST</button><button class="touch action jump" id="jump">JUMP</button></div></div>
+<div class="hint">EXPLORE · COLLECT SHARDS · FIND THE BEACON</div>
+<div id="screen"><div class="panel"><div class="eyebrow">FIELD EXPEDITION / 01</div><h1>THE <span>SHATTERED</span><br>MOON</h1><p>Your survey craft crashed beside an ancient alien ruin. Explore the moon, recover five energy shards, and reach the beacon to call for extraction. Watch your suit integrity around hostile crystal growths.</p><div class="facts"><div class="fact"><b>3D EXPLORATION</b><small>Third-person camera</small></div><div class="fact"><b>5 SHARDS</b><small>One mission objective</small></div><div class="fact"><b>TOUCH READY</b><small>Mobile controls</small></div></div><button class="start" id="start">BEGIN EXPEDITION ↗</button><p class="sub">Best played in landscape · Three.js loads from a CDN</p></div></div>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-const root=document.querySelector('#game');
-const scene=new THREE.Scene(); scene.background=new THREE.Color(0x050716); scene.fog=new THREE.FogExp2(0x050716,.014);
-const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,500); camera.position.set(0,5,11); camera.lookAt(0,0,-10);
-const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false}); renderer.setPixelRatio(Math.min(devicePixelRatio,1.7)); renderer.setSize(innerWidth,innerHeight); renderer.outputColorSpace=THREE.SRGBColorSpace; root.appendChild(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0x9cbcff,0x170d3a,2));
-const key=new THREE.PointLight(0x65ddff,65,100);key.position.set(-5,8,1);scene.add(key);
-const pink=new THREE.PointLight(0xc06aff,45,80);pink.position.set(7,2,-18);scene.add(pink);
-const starGeo=new THREE.BufferGeometry(),starN=1200,starPos=new Float32Array(starN*3);
-for(let i=0;i<starN;i++){starPos[i*3]=(Math.random()-.5)*100;starPos[i*3+1]=(Math.random()-.5)*70;starPos[i*3+2]=-Math.random()*180+25}
-starGeo.setAttribute('position',new THREE.BufferAttribute(starPos,3));const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0xb9d7ff,size:.16,sizeAttenuation:true}));scene.add(stars);
-const floor=new THREE.Mesh(new THREE.PlaneGeometry(90,220,1,1),new THREE.MeshBasicMaterial({color:0x0c1230,wireframe:true,transparent:true,opacity:.22}));floor.rotation.x=-Math.PI/2;floor.position.set(0,-2.7,-70);scene.add(floor);
-function makePlanet(x,y,z,r,color,ring=false){const g=new THREE.Group();g.position.set(x,y,z);const m=new THREE.Mesh(new THREE.SphereGeometry(r,32,24),new THREE.MeshStandardMaterial({color,roughness:.78,metalness:.15,emissive:color,emissiveIntensity:.12}));g.add(m);if(ring){const rm=new THREE.Mesh(new THREE.TorusGeometry(r*1.45,.07,8,80),new THREE.MeshStandardMaterial({color:0x9b8cff,emissive:0x4832b5,emissiveIntensity:.7,metalness:.5}));rm.rotation.x=1.1;g.add(rm)}scene.add(g);return g}
-const planets=[makePlanet(-13,5,-28,4,0x5a43bd,true),makePlanet(15,-1,-57,6,0x1b9ba8,true),makePlanet(-11,-3,-88,3.5,0xc34b94,false),makePlanet(10,7,-115,5,0x3455aa,true)];
-const ship=new THREE.Group();const body=new THREE.Mesh(new THREE.ConeGeometry(.62,1.8,5),new THREE.MeshStandardMaterial({color:0x9df7ff,metalness:.65,roughness:.22,emissive:0x137a9b,emissiveIntensity:.7}));body.rotation.x=Math.PI/2;ship.add(body);
-const cockpit=new THREE.Mesh(new THREE.SphereGeometry(.29,16,12),new THREE.MeshStandardMaterial({color:0xc2a5ff,metalness:.4,roughness:.1,emissive:0x7136ff,emissiveIntensity:1.2}));cockpit.position.set(0,.18,-.15);ship.add(cockpit);
-const wingMat=new THREE.MeshStandardMaterial({color:0x6f67ff,metalness:.5,roughness:.3,emissive:0x3426a3,emissiveIntensity:.7});
-for(const side of [-1,1]){const wing=new THREE.Mesh(new THREE.BoxGeometry(.95,.09,.48),wingMat);wing.position.set(side*.65,-.08,.3);wing.rotation.y=side*.18;ship.add(wing)}
-const flame=new THREE.Mesh(new THREE.ConeGeometry(.2,.9,12),new THREE.MeshBasicMaterial({color:0x53f5ff}));flame.rotation.x=-Math.PI/2;flame.position.z=.98;ship.add(flame);ship.position.set(0,0,3);scene.add(ship);
-const crystalGeo=new THREE.OctahedronGeometry(.48,0);const crystalMat=new THREE.MeshStandardMaterial({color:0x68f7ff,emissive:0x21dfff,emissiveIntensity:1.5,metalness:.2,roughness:.18});
-const hazardGeo=new THREE.IcosahedronGeometry(.75,1);const hazardMat=new THREE.MeshStandardMaterial({color:0x7e536d,roughness:1,flatShading:true});
-const items=[];function spawnItem(z){const crystal=Math.random()>.36;const mesh=new THREE.Mesh(crystal?crystalGeo:hazardGeo,crystal?crystalMat:hazardMat);mesh.position.set((Math.random()-.5)*12,(Math.random()-.5)*3.5,z);mesh.userData={crystal,spin:(Math.random()-.5)*.06};scene.add(mesh);items.push(mesh)}
-for(let i=0;i<30;i++)spawnItem(-10-i*6);
-let score=0,distance=0,playing=false,ended=false,speed=13,lane=0,boost=false,last=0;
-const scoreEl=document.querySelector('#score'),distEl=document.querySelector('#distance'),overlay=document.querySelector('#overlay'),message=document.querySelector('#message');
-function move(dir){if(!playing)return;lane=Math.max(-5.5,Math.min(5.5,lane+dir*1.45))}
-function bindHold(id,down,up){const el=document.getElementById(id);const onDown=e=>{e.preventDefault();el.classList.add('pressed');down()};const onUp=e=>{e.preventDefault();el.classList.remove('pressed');up()};el.addEventListener('pointerdown',onDown);['pointerup','pointercancel','pointerleave'].forEach(ev=>el.addEventListener(ev,onUp))}
-bindHold('left',()=>move(-1),()=>{});bindHold('right',()=>move(1),()=>{});bindHold('boost',()=>boost=true,()=>boost=false);
-addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='a')move(-1);if(e.key==='ArrowRight'||e.key==='d')move(1);if(e.code==='Space')boost=true});
-addEventListener('keyup',e=>{if(e.code==='Space')boost=false});
-function start(){score=0;distance=0;speed=13;lane=0;boost=false;playing=true;ended=false;scoreEl.textContent='0';distEl.textContent='0';overlay.style.display='none';message.innerHTML='<h1>Explore the Unknown</h1><p>Collect glowing crystals. Dodge the asteroids.</p>';for(const it of items)scene.remove(it);items.length=0;for(let i=0;i<30;i++)spawnItem(-10-i*6);ship.position.set(0,0,3);last=performance.now()}
-document.querySelector('#start').addEventListener('click',start);
-function finish(){playing=false;ended=true;overlay.style.display='grid';document.querySelector('.panel h2').textContent='Mission Complete';document.querySelector('.panel p').innerHTML='You collected <b>'+score+'</b> crystals and travelled <b>'+Math.floor(distance)+' m</b>.<br>Ready for another flight?';document.querySelector('#start').textContent='PLAY AGAIN'}
-function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000||0,.04);last=now;
-if(playing){const v=speed*(boost?1.65:1);distance+=v*dt;distEl.textContent=Math.floor(distance);ship.position.x+=(lane-ship.position.x)*Math.min(1,dt*5);ship.position.y=Math.sin(now*.002)*.12;ship.rotation.z=-(lane-ship.position.x)*.055;flame.scale.y=boost?1.65:1;camera.position.x+=(ship.position.x*.22-camera.position.x)*dt*2;camera.lookAt(ship.position.x*.22,0,-9);
-for(const p of planets){p.position.z+=v*dt*.65;if(p.position.z>15)p.position.z=-130-Math.random()*35}
-for(const it of items){it.position.z+=v*dt;it.rotation.x+=dt*it.userData.spin*10;it.rotation.y+=dt*(it.userData.crystal?1.8:.6);if(it.position.z>6){it.position.z=-160-Math.random()*45;it.position.x=(Math.random()-.5)*12;it.position.y=(Math.random()-.5)*3.5}
-if(it.position.distanceTo(ship.position)<1.05){if(it.userData.crystal){score++;scoreEl.textContent=score;it.position.z=-180}else{finish();break}}}
-stars.position.z=(stars.position.z+v*dt*.08)%10;floor.position.z+=v*dt*.45;if(floor.position.z>0)floor.position.z=-70;
-}else{ship.rotation.y=Math.sin(now*.0008)*.12;ship.position.y=Math.sin(now*.0012)*.16}
-renderer.render(scene,camera)}
+const root=document.querySelector('#scene'),screen=document.querySelector('#screen'),toast=document.querySelector('#toast');
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x080d20);scene.fog=new THREE.FogExp2(0x080d20,.009);
+const camera=new THREE.PerspectiveCamera(62,innerWidth/innerHeight,.1,450);
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;root.appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0x9abaff,0x34213d,2.0));
+const sun=new THREE.DirectionalLight(0xffdfbd,3.2);sun.position.set(-18,28,12);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-38;sun.shadow.camera.right=38;sun.shadow.camera.top=38;sun.shadow.camera.bottom=-38;scene.add(sun);
+const fill=new THREE.PointLight(0x46baff,35,75);fill.position.set(10,8,-12);scene.add(fill);
+function mat(color,rough=.8,metal=0,emissive=0,ei=0){return new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal,emissive,emissiveIntensity:ei})}
+const rockMat=mat(0x3d4359,1,0,0x11172a,.2),darkRock=mat(0x222a43,1),suitMat=mat(0x293a59,.52,.5),whiteMat=mat(0xd6e8ef,.35,.45),glowMat=mat(0x62f4ff,.22,.25,0x16cde8,2.3),purpleMat=mat(0x8d69ff,.35,.2,0x4b1dff,1.3);
+const moon=new THREE.Group();scene.add(moon);
+const groundGeo=new THREE.PlaneGeometry(240,240,150,150);const pos=groundGeo.attributes.position;
+for(let i=0;i<pos.count;i++){const x=pos.getX(i),y=pos.getY(i);pos.setZ(i,Math.sin(x*.14)*.18+Math.cos(y*.19)*.22+Math.sin((x+y)*.31)*.09+(Math.random()-.5)*.09)}
+groundGeo.computeVertexNormals();const ground=new THREE.Mesh(groundGeo,mat(0x54566c,1));ground.rotation.x=-Math.PI/2;ground.position.y=-.35;ground.receiveShadow=true;moon.add(ground);
+const grid=new THREE.GridHelper(220,100,0x6c8cbd,0x455477);grid.position.y=-.32;grid.material.transparent=true;grid.material.opacity=.13;moon.add(grid);
+const starPositions=new Float32Array(1900*3);for(let i=0;i<1900;i++){starPositions[i*3]=(Math.random()-.5)*260;starPositions[i*3+1]=Math.random()*115+5;starPositions[i*3+2]=(Math.random()-.5)*260}
+const sg=new THREE.BufferGeometry();sg.setAttribute('position',new THREE.BufferAttribute(starPositions,3));scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xc2dcff,size:.24,sizeAttenuation:true})));
+const planet=new THREE.Mesh(new THREE.SphereGeometry(13,48,36),new THREE.MeshStandardMaterial({color:0x30477c,roughness:1,emissive:0x101a44,emissiveIntensity:.5}));planet.position.set(37,31,-92);scene.add(planet);
+const atmosphere=new THREE.Mesh(new THREE.SphereGeometry(13.5,40,32),new THREE.MeshBasicMaterial({color:0x537aff,transparent:true,opacity:.09,side:THREE.BackSide}));atmosphere.position.copy(planet.position);scene.add(atmosphere);
+function rock(x,z,s=1){const m=new THREE.Mesh(new THREE.DodecahedronGeometry(s,1),Math.random()>.5?rockMat:darkRock);m.position.set(x,-.1+s*.18,z);m.scale.set(1+Math.random(),.6+Math.random()*.7,.8+Math.random());m.rotation.set(Math.random(),Math.random()*3,Math.random());m.castShadow=true;m.receiveShadow=true;moon.add(m);return m}
+for(let i=0;i<100;i++){let x=(Math.random()-.5)*105,z=(Math.random()-.5)*105;if(Math.abs(x)<5&&Math.abs(z)<7)continue;rock(x,z,.3+Math.random()*1.7)}
+function crystalCluster(x,z,scale=1){const g=new THREE.Group();g.position.set(x,-.32,z);for(let i=0;i<4;i++){const c=new THREE.Mesh(new THREE.CrystalGeometry?.()||new THREE.OctahedronGeometry(.7,0),glowMat);c.scale.set(.35+Math.random()*.35,.6+Math.random()*1.1,.35+Math.random()*.35);c.position.set((Math.random()-.5)*1.2,c.scale.y*.35,(Math.random()-.5)*1.1);c.rotation.z=(Math.random()-.5)*.35;c.castShadow=true;g.add(c)}g.scale.setScalar(scale);moon.add(g);return g}
+for(let i=0;i<26;i++){const x=(Math.random()-.5)*90,z=(Math.random()-.5)*90;if(Math.abs(x)<5&&Math.abs(z)<7)continue;crystalCluster(x,z,.55+Math.random()*.9)}
+// Ancient beacon ruins
+const ruin=new THREE.Group();ruin.position.set(0,-.25,-29);moon.add(ruin);
+const plinth=new THREE.Mesh(new THREE.CylinderGeometry(3.5,4,.6,8),mat(0x272d4c,.5,.6));plinth.position.y=.0;plinth.castShadow=true;plinth.receiveShadow=true;ruin.add(plinth);
+for(let i=0;i<7;i++){const a=i*Math.PI*2/7;const p=new THREE.Mesh(new THREE.BoxGeometry(.42,3.4,.55),mat(0x505879,.45,.5));p.position.set(Math.cos(a)*2.8,1.65,Math.sin(a)*2.8);p.rotation.y=-a;p.castShadow=true;ruin.add(p)}
+const beacon=new THREE.Mesh(new THREE.OctahedronGeometry(1.15,1),new THREE.MeshStandardMaterial({color:0x7efaff,emissive:0x21cfff,emissiveIntensity:2.8,metalness:.4,roughness:.15}));beacon.position.y=3.1;ruin.add(beacon);
+const beaconRing=new THREE.Mesh(new THREE.TorusGeometry(2,.055,8,64),glowMat);beaconRing.position.y=1.5;beaconRing.rotation.x=Math.PI/2;ruin.add(beaconRing);
+const beaconLight=new THREE.PointLight(0x48eaff,0,26);beaconLight.position.set(0,3,0);ruin.add(beaconLight);
+const player=new THREE.Group();scene.add(player);player.position.set(0,0,5);
+const torso=new THREE.Mesh(new THREE.CapsuleGeometry(.38,.78,5,10),suitMat);torso.position.y=1.35;torso.castShadow=true;player.add(torso);
+const pack=new THREE.Mesh(new THREE.BoxGeometry(.48,.63,.28),mat(0x3b4c72,.5,.55));pack.position.set(0,1.42,.37);player.add(pack);
+const head=new THREE.Mesh(new THREE.SphereGeometry(.36,24,18),whiteMat);head.position.y=2.12;head.castShadow=true;player.add(head);
+const visor=new THREE.Mesh(new THREE.SphereGeometry(.27,20,16),mat(0x142a4e,.16,.7,0x163d71,.8));visor.scale.set(1,.68,.45);visor.position.set(0,2.14,-.255);player.add(visor);
+const visorGlow=new THREE.Mesh(new THREE.BoxGeometry(.22,.035,.02),glowMat);visorGlow.position.set(0,2.17,-.38);player.add(visorGlow);
+for(const side of [-1,1]){const arm=new THREE.Mesh(new THREE.CapsuleGeometry(.13,.48,4,8),whiteMat);arm.position.set(side*.49,1.42,-.02);arm.rotation.z=side*-.17;arm.castShadow=true;player.add(arm);const leg=new THREE.Mesh(new THREE.CapsuleGeometry(.16,.48,4,8),suitMat);leg.position.set(side*.2,.53,0);leg.castShadow=true;player.add(leg);const boot=new THREE.Mesh(new THREE.BoxGeometry(.32,.18,.42),mat(0x111a31,.55,.4));boot.position.set(side*.2,.17,-.04);player.add(boot)}
+const shards=[];for(let i=0;i<5;i++){const a=i*1.23+.3,r=7+(i%3)*4;const g=new THREE.Group();g.position.set(Math.cos(a)*r,1.15,-5-i*7);const core=new THREE.Mesh(new THREE.OctahedronGeometry(.6,1),glowMat);core.castShadow=true;g.add(core);const ring=new THREE.Mesh(new THREE.TorusGeometry(.9,.025,6,32),purpleMat);ring.rotation.x=Math.PI/2;g.add(ring);const light=new THREE.PointLight(0x54eaff,3.5,7);g.add(light);scene.add(g);shards.push({group:g,got:false,phase:Math.random()*6})}
+const hazards=[];for(let i=0;i<9;i++){const m=new THREE.Mesh(new THREE.IcosahedronGeometry(.8+Math.random()*.5,1),purpleMat);m.position.set((Math.random()-.5)*30,.7,-9-i*4);m.userData.phase=Math.random()*8;scene.add(m);hazards.push(m)}
+const keys={up:false,down:false,left:false,right:false,boost:false};let active=false,health=100,score=0,velocity=0,jumpV=0,onGround=true,invuln=0,last=performance.now(),toastTimer=0,complete=false;
+const scoreEl=document.querySelector('#score'),healthEl=document.querySelector('#health');
+function say(text){toast.textContent=text;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),1600)}
+function reset(){score=0;health=100;velocity=0;jumpV=0;onGround=true;invuln=0;complete=false;player.position.set(0,0,5);player.rotation.set(0,0,0);shards.forEach((s,i)=>{s.got=false;s.group.visible=true;const a=i*1.23+.3,r=7+(i%3)*4;s.group.position.set(Math.cos(a)*r,1.15,-5-i*7)});hazards.forEach((h,i)=>h.position.set((Math.random()-.5)*30,.7,-9-i*4));scoreEl.textContent='0 / 5';healthEl.textContent='100%';document.querySelector('#missionTitle').textContent='MISSION 01 / SIGNAL LOST';document.querySelector('#missionText').textContent='Recover 5 energy shards to reactivate the beacon.';beaconLight.intensity=0;beacon.material=mat(0x7efaff,.2,.3,0x21cfff,.3)}
+function begin(){reset();active=true;screen.style.display='none';last=performance.now();say('EXPEDITION STARTED')}
+document.querySelector('#start').addEventListener('click',begin);
+function jump(){if(active&&onGround){jumpV=7.2;onGround=false}}
+function bindHold(el,key){el.addEventListener('pointerdown',e=>{e.preventDefault();keys[key]=true;el.classList.add('down');try{el.setPointerCapture(e.pointerId)}catch{}});const up=()=>{keys[key]=false;el.classList.remove('down')};['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,up))}
+document.querySelectorAll('[data-key]').forEach(el=>bindHold(el,el.dataset.key));
+bindHold(document.querySelector('#dash'),'boost');
+document.querySelector('#jump').addEventListener('pointerdown',e=>{e.preventDefault();jump();document.querySelector('#jump').classList.add('down')});
+['pointerup','pointercancel','pointerleave'].forEach(ev=>document.querySelector('#jump').addEventListener(ev,()=>document.querySelector('#jump').classList.remove('down')));
+addEventListener('keydown',e=>{if(e.repeat)return;if(['ArrowUp','w','W'].includes(e.key))keys.up=true;if(['ArrowDown','s','S'].includes(e.key))keys.down=true;if(['ArrowLeft','a','A'].includes(e.key))keys.left=true;if(['ArrowRight','d','D'].includes(e.key))keys.right=true;if(e.code==='Space')jump();if(e.shiftKey)keys.boost=true});
+addEventListener('keyup',e=>{if(['ArrowUp','w','W'].includes(e.key))keys.up=false;if(['ArrowDown','s','S'].includes(e.key))keys.down=false;if(['ArrowLeft','a','A'].includes(e.key))keys.left=false;if(['ArrowRight','d','D'].includes(e.key))keys.right=false;if(e.key==='Shift')keys.boost=false});
+function end(win){active=false;complete=win;screen.style.display='grid';const p=screen.querySelector('.panel');p.querySelector('.eyebrow').textContent=win?'EXTRACTION CONFIRMED':'MISSION FAILED';p.querySelector('h1').innerHTML=win?'MOON <span>SECURED</span>':'SIGNAL <span>LOST</span>';p.querySelector('p').textContent=win?'All energy shards recovered. The beacon is online and your extraction signal has reached orbit. Expedition complete.':'Your suit integrity reached zero. The moon is still waiting. Repair, re-enter, and finish the mission.';p.querySelector('.facts').innerHTML='<div class="fact"><b>'+score+' / 5</b><small>Shards recovered</small></div><div class="fact"><b>'+health+'%</b><small>Suit integrity</small></div><div class="fact"><b>'+Math.floor(player.position.length())+' m</b><small>From landing site</small></div>';p.querySelector('.start').textContent='RETRY EXPEDITION ↗'}
+function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.035);last=now;
+if(active){const moveX=(keys.right?1:0)-(keys.left?1:0),moveZ=(keys.down?1:0)-(keys.up?1:0);const boost=keys.boost?1.65:1;const speed=keys.boost?10.8:6.6;player.position.x+=moveX*speed*dt;player.position.z+=moveZ*speed*dt;player.position.x=THREE.MathUtils.clamp(player.position.x,-43,43);player.position.z=THREE.MathUtils.clamp(player.position.z,-45,18);if(moveX||moveZ){const target=Math.atan2(moveX,moveZ);player.rotation.y=THREE.MathUtils.lerp(player.rotation.y,target,dt*8);torso.rotation.z=THREE.MathUtils.lerp(torso.rotation.z,-moveX*.09,dt*7)}else torso.rotation.z=THREE.MathUtils.lerp(torso.rotation.z,0,dt*5);
+if(!onGround){player.position.y+=jumpV*dt;jumpV-=17*dt;if(player.position.y<=0){player.position.y=0;jumpV=0;onGround=true}}invuln=Math.max(0,invuln-dt);player.visible=invuln===0||Math.floor(now/90)%2===0;
+for(const s of shards){if(s.got)continue;s.group.rotation.y+=dt*1.3;s.group.position.y=1.15+Math.sin(now*.002+s.phase)*.22;if(s.group.position.distanceTo(player.position)<1.55){s.got=true;s.group.visible=false;score++;scoreEl.textContent=score+' / 5';say('ENERGY SHARD RECOVERED +1');if(score===5){document.querySelector('#missionTitle').textContent='MISSION 02 / BEACON ONLINE';document.querySelector('#missionText').textContent='All shards recovered. Return to the ancient beacon.';beaconLight.intensity=8;beacon.material=glowMat;say('BEACON SIGNAL RESTORED')}}}
+for(const h of hazards){h.rotation.x+=dt*.35;h.rotation.y+=dt*.8;h.position.y=.7+Math.sin(now*.001+h.userData.phase)*.22;if(invuln===0&&h.position.distanceTo(player.position)<1.3&&player.position.y<1){health=Math.max(0,health-20);healthEl.textContent=health+'%';invuln=1.3;player.position.x+=player.position.x<h.position.x?-1.2:1.2;say('WARNING: SUIT DAMAGED');if(health===0){player.visible=true;end(false);break}}}
+if(score===5&&player.position.distanceTo(new THREE.Vector3(0,0,-29))<4){document.querySelector('#missionTitle').textContent='MISSION COMPLETE';document.querySelector('#missionText').textContent='Extraction beacon reached.';end(true)}
+}
+const target=new THREE.Vector3(player.position.x,1.1+player.position.y,player.position.z);const offset=new THREE.Vector3(0,5.2,9.5);camera.position.lerp(target.clone().add(offset),1-Math.pow(.001,dt));camera.lookAt(target.x,target.y+.3,target.z-3);
+beacon.rotation.y+=dt*.25;beacon.position.y=3.1+Math.sin(now*.001)*.12;beaconRing.rotation.z+=dt*.2;renderer.render(scene,camera)}
 requestAnimationFrame(animate);
-addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.7))});
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.6))});
 </script>
-</body>
-</html>
+</body></html>
