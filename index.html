@@ -63,7 +63,7 @@ function reset(){score=0;health=100;velocity=0;jumpV=0;onGround=true;invuln=0;co
 function begin(){reset();active=true;screen.style.display='none';last=performance.now();say('EXPEDITION STARTED')}
 document.querySelector('#start').addEventListener('click',begin);
 function jump(){if(active&&onGround){jumpV=7.2;onGround=false}}
-function bindHold(el,key){el.addEventListener('pointerdown',e=>{e.preventDefault();keys[key]=true;el.classList.add('pressed');try{el.setPointerCapture(e.pointerId)}catch{}});const up=()=>{keys[key]=false;el.classList.remove('pressed')};['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,up));el.addEventListener('contextmenu',e=>e.preventDefault())}
+function bindHold(el,key){const down=e=>{e.preventDefault();keys[key]=true;el.classList.add('pressed');el.setAttribute('aria-pressed','true')};const up=e=>{if(e)e.preventDefault();keys[key]=false;el.classList.remove('pressed');el.setAttribute('aria-pressed','false')};el.addEventListener('pointerdown',down,{passive:false});['pointerup','pointercancel','pointerleave','blur','lostpointercapture'].forEach(ev=>el.addEventListener(ev,up));el.addEventListener('touchstart',down,{passive:false});['touchend','touchcancel'].forEach(ev=>el.addEventListener(ev,up));el.addEventListener('contextmenu',e=>e.preventDefault())}
 document.querySelectorAll('[data-key]').forEach(el=>bindHold(el,el.dataset.key));
 bindHold(document.querySelector('#dash'),'boost');
 document.querySelector('#jump').addEventListener('pointerdown',e=>{e.preventDefault();jump();document.querySelector('#jump').classList.add('pressed')});
