@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#070b22">
+<title>Cosmic Quest</title>
+<style>
+:root{color-scheme:dark;--cyan:#66f5ff;--violet:#a78bfa}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050716;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#fff}
+#game{position:fixed;inset:0}
+canvas{display:block;width:100%;height:100%;touch-action:none}
+.hud{position:fixed;top:env(safe-area-inset-top,12px);left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:14px 16px;pointer-events:none;gap:10px}
+.brand,.stat{background:#111633c9;border:1px solid #9aeaff38;backdrop-filter:blur(12px);border-radius:16px;padding:10px 13px;box-shadow:0 0 24px #3b82f61c}
+.brand{font-weight:900;letter-spacing:1px;color:#dffcff}.brand small{display:block;font-size:10px;letter-spacing:3px;color:#8c9acb;font-weight:600}
+.stats{display:flex;gap:8px}.stat{font-size:12px;color:#c4d1ff;text-align:center;min-width:74px}.stat strong{display:block;color:var(--cyan);font-size:19px}
+#message{position:fixed;left:50%;top:23%;transform:translateX(-50%);width:min(88vw,440px);text-align:center;pointer-events:none;text-shadow:0 3px 20px #000}
+#message h1{font-size:clamp(27px,7vw,48px);margin:0 0 8px;letter-spacing:1px;background:linear-gradient(90deg,#fff,#8beaff,#c4a5ff);color:transparent;background-clip:text}
+#message p{margin:0;color:#d4dcff;line-height:1.55;font-size:14px}
+.controls{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);display:flex;justify-content:space-between;align-items:end;padding:0 20px;pointer-events:none}
+.cluster{display:flex;gap:12px;pointer-events:auto}
+.control{width:62px;height:62px;border-radius:21px;border:1px solid #9cecff75;background:#111a3dcc;color:#e8fdff;font-size:25px;box-shadow:0 0 25px #2dd4bf20,inset 0 0 20px #8b5cf622;touch-action:none;user-select:none}
+.control:active,.control.pressed{background:#287b9ac9;transform:scale(.96)}
+#boost{width:74px;height:74px;border-radius:50%;font-size:12px;font-weight:900;letter-spacing:1px;color:#fff;background:radial-gradient(circle at 35% 25%,#e879f9,#6d28d9 65%,#24105a);border:2px solid #e9b8ff;box-shadow:0 0 28px #a855f788}
+#overlay{position:fixed;inset:0;display:grid;place-items:center;background:#0407179c;backdrop-filter:blur(7px);padding:24px}
+.panel{width:min(100%,390px);padding:27px 23px;border-radius:27px;border:1px solid #91dfff55;background:linear-gradient(145deg,#17234beF,#0a0e27f5);text-align:center;box-shadow:0 20px 80px #0008}
+.panel .orb{font-size:42px;margin-bottom:4px}.panel h2{font-size:28px;margin:4px 0 8px}.panel p{font-size:14px;line-height:1.7;color:#c4d1f8;margin:0 0 20px}
+#start{border:0;border-radius:15px;padding:14px 23px;width:100%;font-size:16px;font-weight:900;color:#071024;background:linear-gradient(90deg,#67f5ff,#b9a0ff);box-shadow:0 0 25px #67f5ff35}
+.hint{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 104px);left:0;right:0;text-align:center;font-size:11px;color:#c8d5ff9c;pointer-events:none}
+@media(min-width:700px){.controls{padding:0 8vw}.control{width:70px;height:70px}}
+</style>
+</head>
+<body>
+<div id="game"></div>
+<div class="hud"><div class="brand">COSMIC QUEST<small>SPACE EXPLORER</small></div><div class="stats"><div class="stat">CRYSTALS<strong id="score">0</strong></div><div class="stat">DISTANCE<strong id="distance">0</strong></div></div></div>
+<div id="message"><h1>Explore the Unknown</h1><p>Collect glowing crystals. Dodge the asteroids.</p></div>
+<div class="hint">Move ◀ ▶ · Hold BOOST to speed up</div>
+<div class="controls"><div class="cluster"><button class="control" id="left" aria-label="Move left">◀</button><button class="control" id="right" aria-label="Move right">▶</button></div><button class="control" id="boost">BOOST</button></div>
+<div id="overlay"><div class="panel"><div class="orb">🪐</div><h2>Cosmic Quest</h2><p>Your space adventure begins now.<br>Steer your ship, collect energy crystals, and avoid asteroids for as long as you can.</p><button id="start">START EXPLORING</button></div></div>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+const root=document.querySelector('#game');
+const scene=new THREE.Scene(); scene.background=new THREE.Color(0x050716); scene.fog=new THREE.FogExp2(0x050716,.014);
+const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,500); camera.position.set(0,5,11); camera.lookAt(0,0,-10);
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false}); renderer.setPixelRatio(Math.min(devicePixelRatio,1.7)); renderer.setSize(innerWidth,innerHeight); renderer.outputColorSpace=THREE.SRGBColorSpace; root.appendChild(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0x9cbcff,0x170d3a,2));
+const key=new THREE.PointLight(0x65ddff,65,100);key.position.set(-5,8,1);scene.add(key);
+const pink=new THREE.PointLight(0xc06aff,45,80);pink.position.set(7,2,-18);scene.add(pink);
+const starGeo=new THREE.BufferGeometry(),starN=1200,starPos=new Float32Array(starN*3);
+for(let i=0;i<starN;i++){starPos[i*3]=(Math.random()-.5)*100;starPos[i*3+1]=(Math.random()-.5)*70;starPos[i*3+2]=-Math.random()*180+25}
+starGeo.setAttribute('position',new THREE.BufferAttribute(starPos,3));const stars=new THREE.Points(starGeo,new THREE.PointsMaterial({color:0xb9d7ff,size:.16,sizeAttenuation:true}));scene.add(stars);
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(90,220,1,1),new THREE.MeshBasicMaterial({color:0x0c1230,wireframe:true,transparent:true,opacity:.22}));floor.rotation.x=-Math.PI/2;floor.position.set(0,-2.7,-70);scene.add(floor);
+function makePlanet(x,y,z,r,color,ring=false){const g=new THREE.Group();g.position.set(x,y,z);const m=new THREE.Mesh(new THREE.SphereGeometry(r,32,24),new THREE.MeshStandardMaterial({color,roughness:.78,metalness:.15,emissive:color,emissiveIntensity:.12}));g.add(m);if(ring){const rm=new THREE.Mesh(new THREE.TorusGeometry(r*1.45,.07,8,80),new THREE.MeshStandardMaterial({color:0x9b8cff,emissive:0x4832b5,emissiveIntensity:.7,metalness:.5}));rm.rotation.x=1.1;g.add(rm)}scene.add(g);return g}
+const planets=[makePlanet(-13,5,-28,4,0x5a43bd,true),makePlanet(15,-1,-57,6,0x1b9ba8,true),makePlanet(-11,-3,-88,3.5,0xc34b94,false),makePlanet(10,7,-115,5,0x3455aa,true)];
+const ship=new THREE.Group();const body=new THREE.Mesh(new THREE.ConeGeometry(.62,1.8,5),new THREE.MeshStandardMaterial({color:0x9df7ff,metalness:.65,roughness:.22,emissive:0x137a9b,emissiveIntensity:.7}));body.rotation.x=Math.PI/2;ship.add(body);
+const cockpit=new THREE.Mesh(new THREE.SphereGeometry(.29,16,12),new THREE.MeshStandardMaterial({color:0xc2a5ff,metalness:.4,roughness:.1,emissive:0x7136ff,emissiveIntensity:1.2}));cockpit.position.set(0,.18,-.15);ship.add(cockpit);
+const wingMat=new THREE.MeshStandardMaterial({color:0x6f67ff,metalness:.5,roughness:.3,emissive:0x3426a3,emissiveIntensity:.7});
+for(const side of [-1,1]){const wing=new THREE.Mesh(new THREE.BoxGeometry(.95,.09,.48),wingMat);wing.position.set(side*.65,-.08,.3);wing.rotation.y=side*.18;ship.add(wing)}
+const flame=new THREE.Mesh(new THREE.ConeGeometry(.2,.9,12),new THREE.MeshBasicMaterial({color:0x53f5ff}));flame.rotation.x=-Math.PI/2;flame.position.z=.98;ship.add(flame);ship.position.set(0,0,3);scene.add(ship);
+const crystalGeo=new THREE.OctahedronGeometry(.48,0);const crystalMat=new THREE.MeshStandardMaterial({color:0x68f7ff,emissive:0x21dfff,emissiveIntensity:1.5,metalness:.2,roughness:.18});
+const hazardGeo=new THREE.IcosahedronGeometry(.75,1);const hazardMat=new THREE.MeshStandardMaterial({color:0x7e536d,roughness:1,flatShading:true});
+const items=[];function spawnItem(z){const crystal=Math.random()>.36;const mesh=new THREE.Mesh(crystal?crystalGeo:hazardGeo,crystal?crystalMat:hazardMat);mesh.position.set((Math.random()-.5)*12,(Math.random()-.5)*3.5,z);mesh.userData={crystal,spin:(Math.random()-.5)*.06};scene.add(mesh);items.push(mesh)}
+for(let i=0;i<30;i++)spawnItem(-10-i*6);
+let score=0,distance=0,playing=false,ended=false,speed=13,lane=0,boost=false,last=0;
+const scoreEl=document.querySelector('#score'),distEl=document.querySelector('#distance'),overlay=document.querySelector('#overlay'),message=document.querySelector('#message');
+function move(dir){if(!playing)return;lane=Math.max(-5.5,Math.min(5.5,lane+dir*1.45))}
+function bindHold(id,down,up){const el=document.getElementById(id);const onDown=e=>{e.preventDefault();el.classList.add('pressed');down()};const onUp=e=>{e.preventDefault();el.classList.remove('pressed');up()};el.addEventListener('pointerdown',onDown);['pointerup','pointercancel','pointerleave'].forEach(ev=>el.addEventListener(ev,onUp))}
+bindHold('left',()=>move(-1),()=>{});bindHold('right',()=>move(1),()=>{});bindHold('boost',()=>boost=true,()=>boost=false);
+addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='a')move(-1);if(e.key==='ArrowRight'||e.key==='d')move(1);if(e.code==='Space')boost=true});
+addEventListener('keyup',e=>{if(e.code==='Space')boost=false});
+function start(){score=0;distance=0;speed=13;lane=0;boost=false;playing=true;ended=false;scoreEl.textContent='0';distEl.textContent='0';overlay.style.display='none';message.innerHTML='<h1>Explore the Unknown</h1><p>Collect glowing crystals. Dodge the asteroids.</p>';for(const it of items)scene.remove(it);items.length=0;for(let i=0;i<30;i++)spawnItem(-10-i*6);ship.position.set(0,0,3);last=performance.now()}
+document.querySelector('#start').addEventListener('click',start);
+function finish(){playing=false;ended=true;overlay.style.display='grid';document.querySelector('.panel h2').textContent='Mission Complete';document.querySelector('.panel p').innerHTML='You collected <b>'+score+'</b> crystals and travelled <b>'+Math.floor(distance)+' m</b>.<br>Ready for another flight?';document.querySelector('#start').textContent='PLAY AGAIN'}
+function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000||0,.04);last=now;
+if(playing){const v=speed*(boost?1.65:1);distance+=v*dt;distEl.textContent=Math.floor(distance);ship.position.x+=(lane-ship.position.x)*Math.min(1,dt*5);ship.position.y=Math.sin(now*.002)*.12;ship.rotation.z=-(lane-ship.position.x)*.055;flame.scale.y=boost?1.65:1;camera.position.x+=(ship.position.x*.22-camera.position.x)*dt*2;camera.lookAt(ship.position.x*.22,0,-9);
+for(const p of planets){p.position.z+=v*dt*.65;if(p.position.z>15)p.position.z=-130-Math.random()*35}
+for(const it of items){it.position.z+=v*dt;it.rotation.x+=dt*it.userData.spin*10;it.rotation.y+=dt*(it.userData.crystal?1.8:.6);if(it.position.z>6){it.position.z=-160-Math.random()*45;it.position.x=(Math.random()-.5)*12;it.position.y=(Math.random()-.5)*3.5}
+if(it.position.distanceTo(ship.position)<1.05){if(it.userData.crystal){score++;scoreEl.textContent=score;it.position.z=-180}else{finish();break}}}
+stars.position.z=(stars.position.z+v*dt*.08)%10;floor.position.z+=v*dt*.45;if(floor.position.z>0)floor.position.z=-70;
+}else{ship.rotation.y=Math.sin(now*.0008)*.12;ship.position.y=Math.sin(now*.0012)*.16}
+renderer.render(scene,camera)}
+requestAnimationFrame(animate);
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.7))});
+</script>
+</body>
+</html>
