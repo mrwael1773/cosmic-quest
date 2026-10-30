@@ -274,6 +274,115 @@ h1 em{color:var(--cyan);text-shadow:0 0 30px #7df9ff3d}
 }
 @media(prefers-reduced-motion:reduce){button{transition:none!important}}
 
+
+/* COSMIC QUEST — art direction v3: restrained orbital interface */
+:root{--cyan:#8fffe0;--violet:#a9b8ff;--mint:#c7ff79;--line:rgba(194,215,255,.14);--muted:#a8b6cf}
+body{background:#070b14;color:#f4f6fb;letter-spacing:0}
+button{box-shadow:none;transition:background .16s,border-color .16s,transform .16s,color .16s}
+button:active{transform:scale(.98);filter:none}
+#game{background:radial-gradient(ellipse at 50% 42%,#111e35 0%,#080d19 65%,#05070d 100%)}
+.hud{padding:calc(env(safe-area-inset-top) + 14px) 14px 0;gap:9px}
+.hud .brand,.hud .stat{background:rgba(12,19,33,.9);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px #0003;backdrop-filter:blur(16px)}
+.hud .brand{padding:10px 13px;font-size:11px;letter-spacing:1.8px;color:#f4f6fb}
+.hud .brand small{color:var(--mint);font-size:8px;letter-spacing:2px}
+.hud .stat{min-width:58px;padding:7px 9px;text-align:center}
+.hud .stat b{font-size:17px;color:var(--mint)}
+.top-actions{top:calc(env(safe-area-inset-top) + 72px);left:14px;right:14px}
+.top-actions button{min-height:39px;padding:9px 13px;border:1px solid var(--line);border-radius:11px!important;background:#111b2b;color:#edf4ff;font-size:11px;box-shadow:0 6px 18px #0003}
+.top-actions #shopOpen{border-color:#c7ff7945;color:var(--mint);background:#132019}
+.health{border:1px solid #ff9fa52b;background:#1c111be8;border-radius:11px;box-shadow:none}
+.diamond-pop{background:#10221ceF;border:1px solid #c7ff7935;border-radius:11px;color:var(--mint);box-shadow:none}
+.ability-row{bottom:calc(env(safe-area-inset-bottom) + 145px);gap:6px;padding:6px;background:#0b111edb;border:1px solid var(--line);border-radius:15px;box-shadow:0 8px 24px #0003;backdrop-filter:blur(14px)}
+.ability{min-height:38px;padding:9px 11px;border:1px solid #d1e0f01c;border-radius:10px!important;background:#172236;color:#dfe9f9;font-size:10px}
+.ability:disabled{opacity:.4}
+.pad .ctrl{border:1px solid #c7d6ed24;border-radius:20px!important;background:linear-gradient(145deg,#1b2940,#101827);color:#eaf3ff;box-shadow:0 8px 22px #0005}
+.pad .ctrl:active,.pad .ctrl.is-pressed{background:#283c4c;border-color:#c7ff79}
+.fire{border:1px solid #e5ffd0;background:linear-gradient(145deg,#d8ff9b,#9fe5b6);color:#102016;font-weight:950;box-shadow:0 0 0 5px #c7ff790d,0 8px 24px #0004}
+.hint{border:1px solid #ffffff0b;background:#080d18cc;color:#a7b7ce}
+.overlay{background:radial-gradient(ellipse at 50% 10%,#172a3d99 0%,#070b14f2 58%,#05070cf7 100%);backdrop-filter:blur(12px)}
+.panel{width:min(100%,460px);padding:clamp(21px,5vw,34px);border:1px solid #d5e5ff16;border-radius:25px;background:linear-gradient(150deg,#121d2d 0%,#0c1422 72%,#0b111c 100%);box-shadow:0 24px 80px #0008,inset 0 1px #ffffff09}
+.panel:before{background:radial-gradient(ellipse at 85% 0%,#c7ff790b,transparent 45%),radial-gradient(ellipse at 0% 100%,#8baaff0b,transparent 45%)}
+.best-intro{width:min(100%,260px);margin-bottom:21px;padding:11px 15px;border:1px solid #c7ff792e;border-radius:14px;background:#c7ff7908;color:#b8c5d9;font-size:11px}
+.best-intro b{font-size:30px;color:var(--mint);text-shadow:none}
+.kicker{padding:6px 10px;border:1px solid #c7ff7928;border-radius:6px;background:#c7ff7907;color:var(--mint);font-size:9px;letter-spacing:2.2px}
+h1{font-size:clamp(42px,11vw,65px);line-height:.9;letter-spacing:-2.8px;margin:21px 0 17px;text-shadow:none}
+h1 em{color:var(--mint);text-shadow:none}
+.panel p{color:#b8c5d9;font-size:13px;line-height:1.9}
+.features{gap:8px;margin:22px 0}
+.feature{padding:12px 9px;border:1px solid #d5e5ff12;border-radius:13px;background:#ffffff03;box-shadow:none}
+.feature b{font-size:11px;color:#f3f6fc}
+.feature small{font-size:10px;color:#9eafc9;line-height:1.7}
+.primary{min-height:52px;border-radius:12px!important;background:var(--mint);color:#10190f;font-size:14px;box-shadow:0 8px 24px #c7ff7915}
+.primary:active{background:#b6f36c}
+.secondary{min-height:44px;border:1px solid #d5e5ff1c;border-radius:12px!important;background:#ffffff05;color:#d8e3f4}
+.note{color:#7f91aa!important}
+.shop-modal{padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));background:#03060cd9;backdrop-filter:blur(16px)}
+.shop-panel{width:min(100%,540px);padding:19px;max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 24px);border:1px solid #d5e5ff1b;border-radius:21px;background:#0c1421;box-shadow:0 24px 80px #000b;scrollbar-color:#52647d transparent}
+.shop-head{top:-19px;margin:-2px 0 13px;padding:7px 0 13px;border-bottom:1px solid #d5e5ff12;background:#0c1421}
+.shop-head h2{font-size:20px;color:#f3f6fc}
+#menuTitle:before{background:var(--mint);box-shadow:none}
+.shop-close{min-height:38px;border:1px solid #ffb2c51f;border-radius:10px!important;background:#ff82920a;color:#ffc1ca}
+.shop-balance{border:1px solid #c7ff7930;border-radius:10px;background:#c7ff7908;color:var(--mint)}
+#menuNav{gap:8px!important}
+#menuNav button{min-height:57px;padding:11px 12px;border:1px solid #d5e5ff13;border-radius:12px!important;background:#131e2d;color:#dfe8f7;font-size:12px;box-shadow:none}
+#menuNav button:after{display:none}
+#menuNav button:active{background:#1b2a3b;border-color:#c7ff7955}
+#menuNav #resumeBtn{background:var(--mint);color:#10190f;box-shadow:none}
+#menuNav #pauseBtn{background:#ffffff04}
+#menuBack{min-height:43px;border:1px solid #c7ff792b;border-radius:11px!important;background:#c7ff7908;color:var(--mint)}
+#menuContent{color:#cbd7e8}
+#menuContent .menu-title{color:#f3f6fc}
+#menuContent .menu-title:before{background:var(--mint)}
+#menuContent p{color:#b2c0d5}
+.menu-cards,.galaxy-map{gap:9px}
+.menu-card,.galaxy-node{padding:13px;border:1px solid #d5e5ff14;border-radius:14px;background:#121d2b;box-shadow:none}
+.menu-card b,.galaxy-node b{color:#f2f5fb}
+.menu-card small,.galaxy-node small{color:#9eafc8}
+.ship-art{background:radial-gradient(ellipse,#c7ff790d,transparent 70%);border:1px solid #d5e5ff0d}
+.menu-card button{min-height:40px;border:1px solid #d5e5ff1a;border-radius:10px!important;background:#1a2938;color:#e9f1fb}
+.galaxy-node{background:linear-gradient(145deg,#152234,#0e1725)}
+.galaxy-node .planet{filter:none}
+.upgrade-card{border-color:#a9b8ff2b!important;background:#171a2b}
+.upgrade-meter{background:#ffffff10}
+.upgrade-meter span{background:var(--mint);box-shadow:none}
+.feature-toggle{border:1px solid #d5e5ff14;border-radius:12px;background:#111b29;color:#dce6f4}
+.feature-toggle button{border:1px solid #c7ff7930;border-radius:9px!important;background:#c7ff7908;color:var(--mint)}
+.shop-tabs{gap:8px}
+.shop-tab{min-height:43px;border:1px solid #d5e5ff14;border-radius:10px!important;background:#ffffff04;color:#aebdd3}
+.shop-tab.active{background:#c7ff790c;border-color:#c7ff7960;color:var(--mint);box-shadow:none}
+.shop-grid{gap:10px}
+.shop-item{padding:12px;border:1px solid #d5e5ff14;border-radius:14px;background:#121d2b;box-shadow:none}
+.shop-preview{height:62px;border-radius:10px;background:radial-gradient(ellipse,#c7ff7908,transparent 70%)}
+.shop-item b{color:#f2f6fc}
+.shop-item small{color:#a5b4cb}
+.shop-item button{min-height:40px;border-radius:10px!important;background:var(--mint);color:#10190f}
+.shop-item button:disabled{background:#263142;color:#8f9fb5}
+.shop-note{border:1px solid #d5e5ff0e;border-radius:11px;background:#ffffff03;color:#9eafc6}
+.event-banner,.zone-notice{border-radius:11px;box-shadow:0 8px 22px #0005}
+@media(max-width:430px){
+ .hud .brand{font-size:9px;letter-spacing:1px;padding:7px 8px}
+ .hud .brand small{font-size:7px;letter-spacing:1px}
+ .hud .stat{min-width:46px;padding:6px}
+ .hud .stat b{font-size:14px}
+ .top-actions{top:calc(env(safe-area-inset-top) + 66px);left:9px;right:9px}
+ .top-actions button{padding:8px 10px;font-size:10px}
+ .ability-row{bottom:calc(env(safe-area-inset-bottom) + 128px);gap:4px;padding:5px}
+ .ability{min-height:35px;padding:8px 9px;font-size:9px}
+ .panel{border-radius:22px}
+ .features{gap:5px;margin:16px 0}
+ .feature{padding:9px 6px}
+ .shop-panel{padding:14px;border-radius:18px}
+ .shop-head{top:-14px}
+ #menuNav{gap:6px!important}
+ #menuNav button{min-height:50px;padding:9px;font-size:10px}
+ .menu-card,.galaxy-node{padding:9px}
+ .shop-grid{gap:7px}
+ .shop-item{padding:9px}
+ .shop-preview{height:50px}
+}
+@media(max-width:340px){#menuNav{grid-template-columns:1fr}#menuNav #resumeBtn,#menuNav #pauseBtn{grid-column:auto}}
+@media(prefers-reduced-motion:reduce){button{transition:none!important}}
+
 </style>
 </head>
 <body>
