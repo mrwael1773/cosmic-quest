@@ -124,14 +124,22 @@ button:active{filter:brightness(1.12)}
  .shop-panel{max-height:calc(100dvh - 24px)}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Expansion pack: missions, hazards, companion, accessibility */
+.event-banner{position:fixed;z-index:18;top:calc(env(safe-area-inset-top) + 154px);left:50%;transform:translateX(-50%);max-width:calc(100vw - 28px);padding:8px 13px;border:1px solid #ffd36a66;border-radius:12px;background:#1b1834eF;color:#ffe7a1;font-size:11px;font-weight:900;text-align:center;pointer-events:none;box-shadow:0 0 24px #ffd36a16;white-space:nowrap}
+.feature-toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;margin:7px 0;border:1px solid #83eaff30;border-radius:12px;background:#ffffff08;font-size:12px}
+.feature-toggle button{border:1px solid #80eaff55;border-radius:9px;background:#142747;color:#dffcff;padding:7px 10px;font-weight:800}
+.menu-content-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0}
+.menu-content-grid .menu-card{padding:10px}
+@media(max-width:380px){.event-banner{font-size:10px;top:calc(env(safe-area-inset-top) + 146px)}}
 </style>
 </head>
 <body>
-<div id="game"></div>
+<div id="game"></div><div id="eventBanner" class="event-banner hidden">حدث فضائي</div>
 <div class="hud"><div class="glass brand">COSMIC QUEST<small>NEON SURVIVOR</small></div><div class="stats"><div class="glass stat">النقاط<b id="score">0</b></div><div class="glass stat">الموجة<b id="wave">1</b></div></div></div>
 <b id="best" class="hidden" aria-hidden="true">0</b><div class="health" id="healthHearts" aria-label="القلوب المتبقية">❤️ ❤️ ❤️</div>
 <div class="top-actions"><button id="menuOpen" class="extra-trigger">☰ القائمة</button><button id="shopOpen" class="shop-trigger">✦ المتجر</button></div><div class="ability-row"><button class="ability" id="shieldBtn">🛡 درع</button><button class="ability" id="rapidBtn">⚡ سرعة</button><button class="ability" id="magnetBtn">🧲 جذب</button></div><div id="zoneNotice" class="zone-notice hidden">🌌 حزام النيازك</div><div class="boss-hud" id="bossHud">☄ الزعيم <div class="boss-track"><div class="boss-fill" id="bossFill"></div></div></div><div id="diamondPop" class="diamond-pop">💎 <span id="diamondCount">0</span></div>
-<div id="menuModal" class="shop-modal"><div class="shop-panel"><div class="shop-head"><h2>☰ القائمة</h2><button id="menuClose" class="shop-close">إغلاق ✕</button></div><button id="resumeBtn" class="primary">▶ متابعة اللعب</button><button id="pauseBtn" class="secondary">Ⅱ إيقاف / متابعة</button><button id="missionsBtn" class="secondary">🏆 المهام والإنجازات</button><button id="statsBtn" class="secondary">📊 إحصائيات الطيار</button><button id="hangarBtn" class="secondary">🚀 حظيرة المركبات</button><button id="upgradeBtn" class="secondary">🔧 شجرة التطوير</button><button id="galaxyBtn" class="secondary">🌌 خريطة المجرة</button><button id="modeBtn" class="secondary">🎮 تغيير طور اللعب</button><button id="settingsBtn" class="secondary">⚙ الإعدادات</button><div id="menuContent" class="modal-copy"></div></div></div><div id="shopModal" class="shop-modal"><div class="shop-panel"><div class="shop-head"><h2>✦ متجر التخصيص</h2><div class="shop-balance">💎 <span id="shopBalance">0</span></div><button id="shopClose" class="shop-close">إغلاق ✕</button></div><p style="font-size:12px;color:#b9c9e6;line-height:1.7;margin:0">اجمع الألماس أثناء اللعب واشترِ مظهرًا جديدًا للمركبة أو شكلًا مختلفًا للطلقات.</p><div class="shop-tabs"><button class="shop-tab active" data-shop-tab="ships">🚀 سكنات الطائرة</button><button class="shop-tab" data-shop-tab="shots">✦ تأثيرات الطلق</button></div><div id="shopGrid" class="shop-grid"></div><p class="shop-note">يُحفظ الألماس والمشتريات على هذا المتصفح والجهاز. مسح بيانات المتصفح أو تغييره قد يفقد التقدم؛ المزامنة بين الأجهزة تحتاج حسابًا وحفظًا سحابيًا.</p></div></div>
+<div id="menuModal" class="shop-modal"><div class="shop-panel"><div class="shop-head"><h2>☰ القائمة</h2><button id="menuClose" class="shop-close">إغلاق ✕</button></div><button id="resumeBtn" class="primary">▶ متابعة اللعب</button><button id="pauseBtn" class="secondary">Ⅱ إيقاف / متابعة</button><button id="missionsBtn" class="secondary">🏆 المهام والإنجازات</button><button id="dailyBtn" class="secondary">🎁 المكافأة اليومية</button><button id="challengeBtn" class="secondary">🎯 التحديات الخاصة</button><button id="statsBtn" class="secondary">📊 إحصائيات الطيار</button><button id="hangarBtn" class="secondary">🚀 حظيرة المركبات</button><button id="upgradeBtn" class="secondary">🔧 شجرة التطوير</button><button id="galaxyBtn" class="secondary">🌌 خريطة المجرة</button><button id="modeBtn" class="secondary">🎮 تغيير طور اللعب</button><button id="settingsBtn" class="secondary">⚙ الإعدادات</button><div id="menuContent" class="modal-copy"></div></div></div><div id="shopModal" class="shop-modal"><div class="shop-panel"><div class="shop-head"><h2>✦ متجر التخصيص</h2><div class="shop-balance">💎 <span id="shopBalance">0</span></div><button id="shopClose" class="shop-close">إغلاق ✕</button></div><p style="font-size:12px;color:#b9c9e6;line-height:1.7;margin:0">اجمع الألماس أثناء اللعب واشترِ مظهرًا جديدًا للمركبة أو شكلًا مختلفًا للطلقات.</p><div class="shop-tabs"><button class="shop-tab active" data-shop-tab="ships">🚀 سكنات الطائرة</button><button class="shop-tab" data-shop-tab="shots">✦ تأثيرات الطلق</button></div><div id="shopGrid" class="shop-grid"></div><p class="shop-note">يُحفظ الألماس والمشتريات على هذا المتصفح والجهاز. مسح بيانات المتصفح أو تغييره قد يفقد التقدم؛ المزامنة بين الأجهزة تحتاج حسابًا وحفظًا سحابيًا.</p></div></div>
 <div class="controls"><div class="pad"><button class="ctrl left" data-key="left" aria-label="تحرك لليسار">◀</button><button class="ctrl right" data-key="right" aria-label="تحرك لليمين">▶</button></div><button id="fire" class="ctrl fire" aria-label="إطلاق النار">إطلاق ✦</button></div>
 <div class="hint">تحرّك بالأسهم، واستمر بالضغط على زر الإطلاق، واجمع الألماس وتفادَ النيازك</div>
 <div id="overlay" class="overlay"><div class="panel"><div class="best-intro" id="bestIntro">🏆 أفضل نتيجة<b id="bestIntroValue">0</b></div><div class="kicker">ARCADE SURVIVAL • 2D</div><h1>NEON<br><em>SURVIVOR</em></h1><p id="intro">تحكّم بمركبتك، وتفادَ النيازك أو أطلق عليها، واجمع الألماس لشراء أشكال جديدة. تزداد خطورة النيازك مع الوقت. كم نقطة تستطيع تحقيقها؟</p><div class="features"><div class="feature"><b>✦ أطلق</b><small>استمر بالضغط على زر الإطلاق</small></div><div class="feature"><b>💎 اجمع الألماس</b><small>واستخدمه في المتجر</small></div><div class="feature"><b>☄ تفادَ</b><small>النيازك تزداد سرعة</small></div></div><button id="start" class="primary">ابدأ النجاة ←</button><button id="homeBack" class="secondary hidden">⌂ العودة إلى الشاشة الرئيسية</button><button id="sound" class="secondary">الصوت: تشغيل</button><p class="note">مصممة للتحكم باللمس على الجوال وبالأسهم على الكمبيوتر</p></div></div>
@@ -191,6 +199,133 @@ if(boss){ctx.save();ctx.translate(boss.x,boss.y);ctx.shadowColor=boss.color;ctx.
 particles.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,p.r,p.r)});ctx.globalAlpha=1;
 if(player){ctx.save();ctx.translate(player.x,player.y);ctx.rotate(Math.sin(t*.005)*.04);if(player.invuln>0&&Math.floor(t/90)%2===0)ctx.globalAlpha=.4;const shipStyle=shipSkins.find(s=>s.id===equippedShip)||shipSkins[0];ctx.shadowColor=shipStyle.color;ctx.shadowBlur=24;ctx.fillStyle=shipStyle.color;ctx.beginPath();ctx.moveTo(0,-20);ctx.lineTo(14,15);ctx.lineTo(0,9);ctx.lineTo(-14,15);ctx.closePath();ctx.fill();ctx.shadowBlur=0;ctx.fillStyle=shipStyle.color;ctx.beginPath();ctx.moveTo(-5,13);ctx.lineTo(0,24+Math.random()*7);ctx.lineTo(5,13);ctx.closePath();ctx.fill();ctx.fillStyle='#12284c';ctx.beginPath();ctx.ellipse(0,-4,4,7,0,0,Math.PI*2);ctx.fill();if(player.invuln>0||shieldTime>0){ctx.strokeStyle=shieldTime>0?'#80faff':'#8bfff0aa';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,23,0,Math.PI*2);ctx.stroke()}ctx.restore()}ctx.restore();
 }
+
+/* COSMIC QUEST EXPANSION PACK */
+let eventClock=18,eventType='',eventLeft=0,companionOn=true,controlScale=1,motionEffects=true,showHints=true,runStartedAt=0,streakReward=0;
+let eventAnnounced=false,sessionShots=0;
+const extraEvents=[{id:'storm',name:'☄️ عاصفة نيازك',desc:'تزداد كثافة النيازك مؤقتًا',color:'#ffd36a'},{id:'gravity',name:'🌀 حقل جاذبية',desc:'تنجذب المركبة نحو منتصف الشاشة',color:'#c39bff'},{id:'dark',name:'🌑 منطقة مظلمة',desc:'تخف الإضاءة وتظهر الأهداف بوضوح أقل',color:'#9ab7ff'},{id:'bonus',name:'💎 هطول الألماس',desc:'فرصة إضافية لجمع الألماس',color:'#7affdc'}];
+function showEventBanner(text,color='#ffe7a1'){const el=$('eventBanner');el.textContent=text;el.style.color=color;el.classList.remove('hidden')}
+function hideEventBanner(){ $('eventBanner').classList.add('hidden') }
+function dailyReward(){
+ const key=new Date().toISOString().slice(0,10),prevKey=new Date(Date.now()-86400000).toISOString().slice(0,10);
+ let d={};try{d=JSON.parse(localStorage.getItem('cosmicQuestLoginStreak')||'{}')}catch{}
+ if(d.last===key){$('menuContent').innerHTML='<div class="menu-title">🎁 المكافأة اليومية</div><p>استلمت مكافأتك اليوم بالفعل. عد غدًا لمكافأة جديدة!</p><div class="menu-card">🔥 سلسلة الدخول: '+(d.streak||1)+' يوم</div>';return}
+ d.streak=d.last===prevKey?(d.streak||1)+1:1;d.last=key;const reward=Math.min(30,5+d.streak*2);diamonds+=reward;playerXP+=reward*2;try{localStorage.setItem('cosmicQuestLoginStreak',JSON.stringify(d))}catch{}saveProgress();
+ $('menuContent').innerHTML='<div class="menu-title">🎁 مكافأة اليوم وصلت!</div><div class="menu-card"><div class="ship-art" style="font-size:34px">💎</div><b>+'+reward+' ألماس</b><small>+'+(reward*2)+' XP · سلسلة الدخول '+d.streak+' يوم</small></div><p>المكافآت تزداد تدريجيًا مع عودتك اليومية، حتى 30 ألماسة.</p>';
+}
+$('dailyBtn').addEventListener('click',dailyReward);
+$('challengeBtn').addEventListener('click',()=>{
+ const tasks=[['nohit','المناورة المثالية','اصمد 30 ثانية دون تلقي إصابة',30],['meteor','صائد النيازك','دمّر 12 نيزكًا في جولة واحدة',12],['bossrush','مواجهة الزعيم','اهزم زعيمًا واحدًا',1]];
+ const html=tasks.map(t=>'<div class="menu-card"><b>🎯 '+t[1]+'</b><small>'+t[2]+'</small><small>المكافأة: 12 ألماسة</small></div>').join('');
+ $('menuContent').innerHTML='<div class="menu-title">🎯 التحديات الخاصة</div><div class="menu-cards">'+html+'</div><small>تُحتسب الشروط داخل الجولة الحالية. مكافآت التحدي لا تُمنح إلا مرة واحدة لكل تحدٍ في الجولة.</small>';
+});
+/* Make the existing projectile collection change firing behavior, not just appearance. */
+const originalShoot=shoot;
+shoot=function(){
+ const style=shotSkins.find(s=>s.id===equippedShot)||shotSkins[0],ship=shipSkins.find(s=>s.id===equippedShip)||shipSkins[0];
+ const power=(ship.power||1)*(1+(upgradeLevels.power||0)*.2);
+ if(equippedShot==='heart'){
+  [-0.16,0,0.16].forEach(a=>shots.push({x:player.x,y:player.y-19,vy:-500,r:4,color:style.color,style:equippedShot,power:power*.72,vx:Math.sin(a)*125}));
+ }else if(equippedShot==='plasma'){
+  shots.push({x:player.x,y:player.y-19,vy:-420,r:8,color:style.color,style:equippedShot,power:power*1.65});
+ }else if(equippedShot==='flame'){
+  shots.push({x:player.x,y:player.y-19,vy:-610,r:5,color:style.color,style:equippedShot,power:power*.85});
+ }else if(equippedShot==='laser'){
+  shots.push({x:player.x,y:player.y-19,vy:-680,r:4,color:style.color,style:equippedShot,power:power*1.15});
+ }else{
+  shots.push({x:player.x,y:player.y-19,vy:-510,r:4,color:style.color,style:equippedShot,power});
+ }
+ sessionShots++;beep(600+Math.random()*100,.035,'triangle');
+};
+/* Extra weapon: triple shot and heavy pulse can be unlocked in the existing store. */
+shotSkins.push({id:'triple',name:'ثلاثي النبضات',price:155,color:'#ff79bc',preview:'✣'},{id:'heavy',name:'النبضة الثقيلة',price:180,color:'#ffd36a',preview:'⬟'});
+const previousShoot=shoot;
+shoot=function(){
+ if(equippedShot==='triple'){
+  const it=shotSkins.find(s=>s.id==='triple');[-.2,0,.2].forEach(a=>shots.push({x:player.x,y:player.y-19,vy:-520,r:4,color:it.color,style:'heart',power:1+(upgradeLevels.power||0)*.2,vx:Math.sin(a)*145}));
+  sessionShots++;beep(720,.045,'triangle');return;
+ }
+ if(equippedShot==='heavy'){
+  const it=shotSkins.find(s=>s.id==='heavy');shots.push({x:player.x,y:player.y-20,vy:-390,r:10,color:it.color,style:'plasma',power:2.6+(upgradeLevels.power||0)*.3});
+  sessionShots++;beep(330,.07,'square');return;
+ }
+ previousShoot();
+};
+/* Projectiles now support side drift and the companion drone. */
+const originalUpdate=update;
+update=function(dt){
+ if(running&&!paused&&!shopOpen&&!menuOpen){
+  eventClock-=dt;
+  if(eventLeft>0){eventLeft=Math.max(0,eventLeft-dt);if(eventLeft===0){eventType='';hideEventBanner()}}
+  if(eventClock<=0&&eventLeft<=0){
+   const ev=extraEvents[Math.floor(Math.random()*extraEvents.length)];eventType=ev.id;eventLeft=ev.id==='bonus'?8:10;eventClock=25+Math.random()*18;showEventBanner(ev.name+' — '+ev.desc,ev.color);
+   if(ev.id==='bonus'){for(let i=0;i<3;i++)crystals.push({x:28+Math.random()*(W-56),y:-20-i*24,r:12,vy:90,spin:0})}
+  }
+  if(eventType==='storm'&&Math.random()<dt*.75)spawnRock();
+  if(eventType==='gravity'&&player){player.vx+=(W/2-player.x)*.018*dt;player.vx=Math.max(-player.speed,Math.min(player.speed,player.vx))}
+  if(eventType==='dark')ctx.globalAlpha=1;
+ }
+ originalUpdate(dt);
+};
+/* Extra enemy types, formations and difficulty variation. */
+const oldSpawnRock=spawnRock;
+spawnRock=function(){
+ oldSpawnRock();
+ const r=rocks[rocks.length-1];if(!r)return;
+ if(wave>=4&&Math.random()<.12){r.type='splitter';r.hp=Math.max(2,r.hp);r.color='#a98bff'}
+ else if(wave>=6&&Math.random()<.10){r.type='weaver';r.vx=(Math.random()<.5?-1:1)*(90+wave*3);r.hp=2}
+ if(wave>=3&&Math.random()<.16){r.formation=Math.random()<.5?'left':'right';r.vx+=(r.formation==='left'?1:-1)*35}
+};
+/* New enemy rendering variants and side-drift projectile motion. */
+const oldDraw=draw;
+draw=function(t){
+ oldDraw(t);
+ if(player&&companionOn){
+  ctx.save();const x=player.x+Math.sin(t*.003)*27,y=player.y+Math.cos(t*.004)*13-22;
+  ctx.shadowColor='#7affdc';ctx.shadowBlur=15;ctx.fillStyle='#7affdc';ctx.strokeStyle='#eaffff';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(x,y-9);ctx.lineTo(x+7,y+5);ctx.lineTo(x,y+2);ctx.lineTo(x-7,y+5);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
+ }
+ if(eventType==='dark'&&eventLeft>0){ctx.save();const g=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*.18,W/2,H/2,Math.max(W,H)*.72);g.addColorStop(0,'#02030a00');g.addColorStop(1,'#02030acc');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);ctx.restore()}
+};
+/* Drones shoot occasional auxiliary shots. */
+const oldUpdateWithEvents=update;
+update=function(dt){
+ oldUpdateWithEvents(dt);
+ if(running&&companionOn&&player&&Math.random()<dt*.8){
+  const target=rocks.find(r=>r.y<player.y&&Math.abs(r.x-player.x)<190);
+  if(target)shots.push({x:player.x+Math.sin(performance.now()*.003)*27,y:player.y-23,vy:-430,r:3,color:'#7affdc',style:'laser',power:.55});
+ }
+};
+/* Accessibility and settings persist on this device. */
+try{controlScale=Math.max(.8,Math.min(1.25,Number(localStorage.getItem('cqControlScale')||1)));companionOn=localStorage.getItem('cqCompanion')!=='false';motionEffects=localStorage.getItem('cqMotion')!=='false';soundOn=localStorage.getItem('cqSound')!=='false'}catch{}
+function applyControlScale(){document.querySelectorAll('.pad .ctrl').forEach(b=>{b.style.width=(70*controlScale)+'px';b.style.height=(70*controlScale)+'px';b.style.flexBasis=(70*controlScale)+'px'});const pad=document.querySelector('.pad');if(pad)pad.style.width=(150*controlScale)+'px';const fire=$('fire');fire.style.width=(90*controlScale)+'px';fire.style.height=(90*controlScale)+'px'}
+function renderSettings(){
+ $('menuContent').innerHTML='<div class="menu-title">⚙ الإعدادات</div>'+
+ '<div class="feature-toggle"><span>🔊 المؤثرات الصوتية</span><button id="setSound">'+(soundOn?'تشغيل':'إيقاف')+'</button></div>'+
+ '<div class="feature-toggle"><span>🚀 الرفيق المساعد</span><button id="setDrone">'+(companionOn?'تشغيل':'إيقاف')+'</button></div>'+
+ '<div class="feature-toggle"><span>✨ المؤثرات البصرية</span><button id="setMotion">'+(motionEffects?'تشغيل':'تخفيف')+'</button></div>'+
+ '<div class="feature-toggle"><span>📱 حجم أزرار التحكم</span><button id="setControls">'+(Math.round(controlScale*100))+'%</button></div>'+
+ '<p>يمكن تعديل حجم أزرار اليمين واليسار وزر الإطلاق. إعداداتك تُحفظ على هذا الجهاز.</p>';
+ $('setSound').onclick=()=>{soundOn=!soundOn;try{localStorage.setItem('cqSound',String(soundOn))}catch{}$('sound').textContent='الصوت: '+(soundOn?'تشغيل':'إيقاف');renderSettings();if(soundOn)beep()};
+ $('setDrone').onclick=()=>{companionOn=!companionOn;try{localStorage.setItem('cqCompanion',String(companionOn))}catch{}renderSettings()};
+ $('setMotion').onclick=()=>{motionEffects=!motionEffects;try{localStorage.setItem('cqMotion',String(motionEffects))}catch{}renderSettings()};
+ $('setControls').onclick=()=>{controlScale=controlScale>=1.2?.8:controlScale+.1;try{localStorage.setItem('cqControlScale',String(controlScale))}catch{}applyControlScale();renderSettings()};
+}
+$('settingsBtn').addEventListener('click',renderSettings);
+applyControlScale();
+/* New ship upgrades affect actual movement and weapon damage; XP is earned throughout play. */
+const oldUpdateHud=updateHud;
+updateHud=function(){oldUpdateHud();if($('score'))$('score').setAttribute('aria-label','النقاط '+Math.floor(score))};
+/* Daily challenge progress, end-of-run summary, and better persistence. */
+const oldShowEnd=showEnd;
+showEnd=function(title,desc,button){
+ desc+=' | الطلقات: '+sessionShots+' | XP: '+playerXP+' | السلسلة: '+combo;
+ oldShowEnd(title,desc,button);
+ sessionShots=0;hideEventBanner();
+};
+const oldReset=reset;
+reset=function(){sessionShots=0;eventClock=18;eventType='';eventLeft=0;hideEventBanner();runStartedAt=performance.now();oldReset()};
+
 function loop(t){const dt=Math.min(.04,Math.max(0,(t-last)/1000));last=t;update(dt);draw(t);requestAnimationFrame(loop)}
 $('overlay').addEventListener('contextmenu',e=>e.preventDefault());document.addEventListener('selectstart',e=>e.preventDefault());document.addEventListener('gesturestart',e=>e.preventDefault());last=performance.now();requestAnimationFrame(loop);
 })();
